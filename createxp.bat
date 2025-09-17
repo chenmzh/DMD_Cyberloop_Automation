@@ -13,7 +13,7 @@ set time_date=%mydate%
 set time_hour=%mytime%
 
 :: Update existing config file with new timestamp
-set exp_config_file_path=./Yeast_source/matlab_files/exp_config.m
+set exp_config_file_path=.\Yeast_source\matlab_files\exp_config.m
 
 :: Check if config file exists, if not create it with basic structure
 if not exist "%exp_config_file_path%" (
