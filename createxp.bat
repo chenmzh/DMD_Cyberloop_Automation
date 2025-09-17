@@ -15,20 +15,31 @@ set time_hour=%mytime%
 :: Update existing config file with new timestamp
 set exp_config_file_path=.\Yeast_source\matlab_files\exp_config.m
 
-:: Check if config file exists, if not create it with basic structure
+:: Check if config file exists, if not create it with full structure
 if not exist "%exp_config_file_path%" (
     echo function [config_exp] = exp_config(imagingFolderName) > %exp_config_file_path%
     echo. >> %exp_config_file_path%
     echo     %% CONFIGURATION PARAMETERS >> %exp_config_file_path%
     echo     config_exp = []; >> %exp_config_file_path%
     echo     %% EXPERIMENT SPECIFIC PARAMETERS >> %exp_config_file_path%
+    echo     config_exp.experiment_name = 'test'; >> %exp_config_file_path%
     echo     config_exp.time_date = '%time_date%'; >> %exp_config_file_path%
     echo     config_exp.time_hour = '%time_hour%'; >> %exp_config_file_path%
     echo     config_exp.organism = 'organism'; >> %exp_config_file_path%
     echo     config_exp.objective_type = 'objective_type'; >> %exp_config_file_path%
     echo     config_exp.magnification = 'magnification'; >> %exp_config_file_path%
     echo     config_exp.strains = 'strains'; >> %exp_config_file_path%
-    echo. >> %exp_config_file_path%
+    echo     config_exp.initial_delay = 60*0; %% In seconds >> %exp_config_file_path%
+    echo     config_exp.experiment_pattern_times = [20, 20, 20, 20, 20] * 60 ; >> %exp_config_file_path%
+    echo     config_exp.experiment_pattern_values = [0, 1, 0, 1, 0]; >> %exp_config_file_path%
+    echo     config_exp.Period = 120; >> %exp_config_file_path%
+    echo     config_exp.intensity = 17.3; >> %exp_config_file_path%
+    echo     config_exp.light_normalization = 69.2; >> %exp_config_file_path%
+    echo     config_exp.imaging.types = {'brightfield','Cy3'}; >> %exp_config_file_path%
+    echo     config_exp.imaging.groups = {'Channels','Trigger'}; >> %exp_config_file_path%
+    echo     config_exp.imaging.exposure = {10, 2000}; >> %exp_config_file_path%
+    echo     config_exp.imaging.zOffsets = {[0,-0.5,+0.5], [0]}; >> %exp_config_file_path%
+    echo     config_exp.imaging.condenser = {5, 5}; >> %exp_config_file_path%
     echo end >> %exp_config_file_path%
     echo New config file created at %exp_config_file_path%
 ) else (
