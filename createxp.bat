@@ -3,7 +3,8 @@
 @echo off
 git add -A
 for /f "tokens=2-4 delims=/ " %%a in ('date /t') do set mydate=%%c%%a%%b
-for /f "tokens=1-3 delims=:.," %%a in ('time /t') do set mytime=%%a%%b%%c
+:: for /f "tokens=1-3 delims=:.," %%a in ('time /t') do set mytime=%%a%%b%%c
+for /f %%a in ('powershell -command "Get-Date -Format 'HHmmss'"') do set mytime=%%a
 git commit -m "Create Experiment date %mydate% and time %mytime%, having a fresh start"
 git push
 
