@@ -32,12 +32,12 @@ data_folder = fullfile(data_root,'data',experiment);
 
 %% Variables to control experiment starts and loop number
 %% ------------------------------------------------------------
-initial_delay = 60*0; % In seconds
-experiment_pattern_times = [20, 20, 20, 20, 20] * 60 ;
-% experiment_pattern_times = [1, 1, 1, 1, 1] * 60 ;
-experiment_pattern_times_cumulative = cumsum(experiment_pattern_times);
-experiment_pattern_values = [0, 1, 0, 1, 0];
-experiment_time_length = sum(experiment_pattern_times); % in seconds
+% initial_delay = 60*0; % In seconds
+% experiment_pattern_times = [20, 20, 20, 20, 20] * 60 ;
+% % experiment_pattern_times = [1, 1, 1, 1, 1] * 60 ;
+% experiment_pattern_times_cumulative = cumsum(experiment_pattern_times);
+% experiment_pattern_values = [0, 1, 0, 1, 0];
+% experiment_time_length = sum(experiment_pattern_times); % in seconds
 
 % --- DEBUG TIMES
 % initial_delay = 3;
@@ -51,7 +51,8 @@ experiment_time_length = sum(experiment_pattern_times); % in seconds
 
 
 cd([fullfile(code_folder,'matlab_files')]);
-currentRun = datestr(now, 'yyyymmddTHHMMSS');
+% currentRun = datestr(now, 'yyyymmddTHHMMSS');
+currentRu=config_exp.timestamp
 microscopyFolderName = fullfile(data_folder, strcat('microscope_images_', currentRun));
 locationFile = fullfile(code_folder, 'multipoints.xml');
 mkdir(fullfile(microscopyFolderName,'data'))
@@ -70,15 +71,13 @@ modify_config(fullfile(python_path,'config.json'), 'output.output_dir', python_o
 
 %% Read the layout and config
 % Output contain the layout info in 1 dimension, size is the dimension of layout
-[Output,Size] = read_layout(code_folder);
-Period = Output{1}; % Only value used in script, imported from excel file
-intensity = Output{2}; % Raw intensity values from layout.xlsx
-Illumination_time = Output{3};
-
+% [Output,Size] = read_layout(code_folder);
+% Period = Output{1}; % Only value used in script, imported from excel file
+% intensity = Output{2}; % Raw intensity values from layout.xlsx
 % Read light normalization factor from config.json
-config_json_path = fullfile(python_path, 'config.json');
-config_data = jsondecode(fileread(config_json_path));
-light_normalization = config_data.control.light_normalization; % mW/cm^2 when DMD intensity = 255
+% config_json_path = fullfile(python_path, 'config.json');
+% config_data = jsondecode(fileread(config_json_path));
+% light_normalization = config_data.control.light_normalization; % mW/cm^2 when DMD intensity = 255
 
 % Layout intensities are the actual desired intensities in mW/cm^2
 actual_intensities = intensity; % These are already in mW/cm^2
@@ -156,13 +155,11 @@ positionIndeces = 1:n_well; % for 24 well plate
 run = "RUN";
 
 %% USER DEFINED IMAGING PARAMETERS
-imaging.types = {'brightfield','Cy3'};
-imaging.groups = {'Channels','Trigger'};
-imaging.exposure = {10, 2000};
-imaging.zOffsets = {[0,-0.5,+0.5], [0]};
-imaging.condenser = {5, 5};
-imaging.n_subimages = 3; %^2
-imaging.field_diagonal = 1.3 * 10 ^ 3; % um
+% imaging.types = {'brightfield','Cy3'};
+% imaging.groups = {'Channels','Trigger'};
+% imaging.exposure = {10, 2000};
+% imaging.zOffsets = {[0,-0.5,+0.5], [0]};
+% imaging.condenser = {5, 5};
 
 %% 
 % STIMULATION DELAY
@@ -170,9 +167,6 @@ stimDel = -Inf; %ceil(6 * 60 * 60 / period);
 stimDur = Inf; %ceil(48 * 60 * 60 / period);
 
 %% Initialization
-% ADJUST FOR TRAINING
-imgTraining = imaging;
-imgTraining.n_subimages = 1;
 
 % MAKE MICROSCOPY FOLDER
 mkdir(microscopyFolderName);
