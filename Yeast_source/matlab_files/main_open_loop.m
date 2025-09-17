@@ -52,7 +52,7 @@ data_folder = fullfile(data_root,'data',experiment);
 
 cd([fullfile(code_folder,'matlab_files')]);
 % currentRun = datestr(now, 'yyyymmddTHHMMSS');
-currentRu=config_exp.timestamp
+currentRun=config_exp.timestamp
 microscopyFolderName = fullfile(data_folder, strcat('microscope_images_', currentRun));
 locationFile = fullfile(code_folder, 'multipoints.xml');
 mkdir(fullfile(microscopyFolderName,'data'))
