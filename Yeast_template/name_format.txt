@@ -1,0 +1,5 @@
+Image usually with name:
+1_brightfield_z1_t000001.tif
+which is sample index, usually value from 1 to 24, then channels, here is brightfield, then z position, then time(such as t000001, t000002), end with .tif
+frame rate is recorded in layout.xlsx, period table, with the unit of minutes.
+Light intensity is saved in the same layout.xlsx. intensity table.

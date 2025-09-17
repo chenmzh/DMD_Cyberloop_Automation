@@ -1,0 +1,56 @@
+[
+  {
+    "sequence": 2,
+    "frame": 1,
+    "timestamp": 1753116786.697286,
+    "left_state": {
+      "current_value": 0.025148868560791016,
+      "setpoint": 0.0,
+      "error": -0.025148868560791016,
+      "prev_error": -0.025148868560791016,
+      "integral": -0.025148868560791016,
+      "light_output": 0.1911314010620117,
+      "kp": 7,
+      "ki": 0.6,
+      "kd": 0
+    },
+    "right_state": {
+      "current_value": 0.07192134857177734,
+      "setpoint": 0.0,
+      "error": -0.07192134857177734,
+      "prev_error": -0.07192134857177734,
+      "integral": -0.07192134857177734,
+      "light_output": 0.5466022491455078,
+      "kp": 7,
+      "ki": 0.6,
+      "kd": 0
+    }
+  },
+  {
+    "sequence": 2,
+    "frame": 2,
+    "timestamp": 1753126211.0054526,
+    "left_state": {
+      "current_value": 0.027852535247802734,
+      "setpoint": 0,
+      "error": -0.027852535247802734,
+      "prev_error": -0.027852535247802734,
+      "integral": -0.19226408004760742,
+      "light_output": 0.31032619476318357,
+      "kp": 7,
+      "ki": 0.6,
+      "kd": 0
+    },
+    "right_state": {
+      "current_value": 0.07124090194702148,
+      "setpoint": 0,
+      "error": -0.07124090194702148,
+      "prev_error": -0.07124090194702148,
+      "integral": -0.49936676025390625,
+      "light_output": 0.798306369781494,
+      "kp": 7,
+      "ki": 0.6,
+      "kd": 0
+    }
+  }
+]

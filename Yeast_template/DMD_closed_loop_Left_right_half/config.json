@@ -1,0 +1,40 @@
+{
+  "input":{
+  "input_dir":"E:\\MC\\data\\Yeast_fluorescence_20250917_agar_pad_debug\\microscope_images_20250917T145341\\segmentation"
+},
+  "output":{
+  "output_dir":"E:\\MC\\data\\Yeast_fluorescence_20250917_agar_pad_debug\\microscope_images_20250917T145341\\py_output"
+},
+  "control":{
+  "left_setpoint":0.15,
+  "right_setpoint":0.1,
+  "left_pid":{
+  "kp":43.75,
+  "ki":3.75,
+  "kd":0
+},
+  "right_pid":{
+  "kp":43.75,
+  "ki":3.75,
+  "kd":0
+},
+  "output_limits":
+    [0,
+  9.375
+],
+  "baseline_light":0,
+  "light_normalization":69.2
+},
+  "processing":{
+  "normalize":true
+},
+  "projection":{
+  "scale_factor":0.5273,
+  "target_size":
+    [1920,
+  1080
+],
+  "flip_horizontal":true,
+  "debug_mode":false
+}
+}

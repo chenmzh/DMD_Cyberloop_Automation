@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp:*)",
+      "Bash(python:*)",
+      "Bash(mkdir:*)",
+      "Bash(ls:*)",
+      "mcp__ide__executeCode",
+      "Bash(pip install:*)",
+      "Bash(/usr/bin/python3:*)",
+      "Bash(pip3 install:*)",
+      "Bash(find:*)",
+      "Bash(/Applications/MATLAB_R2024b.app/bin/matlab:*)",
+      "Bash(mv:*)",
+      "Bash(rm:*)",
+      "Bash(grep:*)"
+    ],
+    "deny": []
+  }
+}

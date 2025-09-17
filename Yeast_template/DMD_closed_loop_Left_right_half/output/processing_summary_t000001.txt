@@ -1,0 +1,19 @@
+Processing Summary - Frame t000001
+==================================================
+
+Sequence: 1
+Left Density: 0.025149
+Right Density: 0.071921
+Left Light Intensity: 0.19
+Right Light Intensity: 0.55
+Output File: 1_brightfield_z1_t000001.tif
+DMD Projection File: 1_dmd_projection_t000001.png
+------------------------------
+Sequence: 2
+Left Density: 0.025149
+Right Density: 0.071921
+Left Light Intensity: 0.19
+Right Light Intensity: 0.55
+Output File: 2_brightfield_z1_t000001.tif
+DMD Projection File: 2_dmd_projection_t000001.png
+------------------------------

@@ -1,0 +1,14 @@
+Data: 2025.09.16
+open loop with DMD test 
+1 Sample. 40x (oil) objective = 40 = 60 magnification
+We also waited for 20(before experiment) + 20 + 20 (shutter off) mins before running the experiment. 
+
+- we set exposure to 2s
+- taking images every 2mins
+- simple off-on patterns several times
+- fixed bug in code (temporarely) for DMD (manual external pattern)
+- We use the gray 50/255 pattern
+- Melinda Strain (https://www.nature.com/articles/s41467-020-15166-3#Sec8)
+
+Second run in the afternoon 15:17 -- turn off DMD, run it again, no initial delay. 
+Third run at 5:24 (20min on off pattern, to se re-activation/recovery of the cells)
