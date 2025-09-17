@@ -22,10 +22,37 @@ props.setProperty('mail.smtp.auth', 'true');
 props.setProperty('mail.smtp.socketFactory.class', 'javax.net.ssl.SSLSocketFactory');
 props.setProperty('mail.smtp.socketFactory.port', port);
 
+% Read exp_config file
+config_exp = config_exp()
+date = config_exp.time_date; 
+hour = config_exp.time_hour; 
+experiment_name = config_exp.experiment_name;
+organism = config_exp.organism;
+objective_type = config_exp.objective_type;
+magnification = config_exp.magnification;
+strains = config_exp.strains;
+initial_delay = config_exp.initial_delay;
+experiment_pattern_times = config_exp.experiment_pattern_times;
+experiment_time_length = sum(experiment_pattern_times); 
+experiment_pattern_times_cumulative = cumsum(experiment_pattern_times);
+experiment_pattern_values = config_exp.experiment_pattern_values;
+experiment_time_length = config_exp.experiment_time_length;
+Period = config_exp.Period;
+intensity = config_exp.intensity;
+light_normalization = config_exp.light_normalization;
+
+imaging.types     = config_exp.imaging.types;        
+imaging.groups    = config_exp.imaging.groups;       
+imaging.exposure  = config_exp.imaging.exposure;        
+imaging.zOffsets  = config_exp.imaging.zOffsets;        
+imaging.condenser = config_exp.imaging.condenser;        
+
+
+
 %% Setup working path
 experiment_root = 'Y:\khammash\MC\microscope';
-experiment = 'Yeast_fluorescence_20250917_agar_pad_debug';
-code_folder =  fullfile(experiment_root,'experiment',experiment);
+experiment = experiment_name + "_" + date + hour ;
+code_folder =  fullfile(experiment_root,'experiment_git_sync',experiment);
 data_root = 'E:\MC'; 
 data_folder = fullfile(data_root,'data',experiment);
 
@@ -51,8 +78,7 @@ data_folder = fullfile(data_root,'data',experiment);
 
 
 cd([fullfile(code_folder,'matlab_files')]);
-% currentRun = datestr(now, 'yyyymmddTHHMMSS');
-currentRun=config_exp.timestamp
+currentRun = datestr(now, 'yyyymmddTHHMMSS');
 microscopyFolderName = fullfile(data_folder, strcat('microscope_images_', currentRun));
 locationFile = fullfile(code_folder, 'multipoints.xml');
 mkdir(fullfile(microscopyFolderName,'data'))
