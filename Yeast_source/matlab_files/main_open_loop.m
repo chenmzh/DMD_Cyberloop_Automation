@@ -22,8 +22,12 @@ props.setProperty('mail.smtp.auth', 'true');
 props.setProperty('mail.smtp.socketFactory.class', 'javax.net.ssl.SSLSocketFactory');
 props.setProperty('mail.smtp.socketFactory.port', port);
 
+% Set the codebase folder
+code_folder =  'Y:\khammash\MC\microscope\experiment_git_sync\Fake_DMD_test\Yeast_source';
+cd([fullfile(code_folder,'matlab_files')]);
+
 % Read exp_config file
-config_exp = config_exp()
+config_exp = exp_config()
 date = config_exp.time_date; 
 hour = config_exp.time_hour; 
 experiment_name = config_exp.experiment_name;
@@ -36,7 +40,6 @@ experiment_pattern_times = config_exp.experiment_pattern_times;
 experiment_time_length = sum(experiment_pattern_times); 
 experiment_pattern_times_cumulative = cumsum(experiment_pattern_times);
 experiment_pattern_values = config_exp.experiment_pattern_values;
-experiment_time_length = config_exp.experiment_time_length;
 Period = config_exp.Period;
 intensity = config_exp.intensity;
 light_normalization = config_exp.light_normalization;
@@ -52,58 +55,23 @@ imaging.condenser = config_exp.imaging.condenser;
 %% Setup working path
 experiment_root = 'Y:\khammash\MC\microscope';
 experiment = experiment_name + "_" + date + hour ;
-code_folder =  fullfile(experiment_root,'experiment_git_sync',experiment);
 data_root = 'E:\MC'; 
 data_folder = fullfile(data_root,'data',experiment);
 
-
-%% Variables to control experiment starts and loop number
-%% ------------------------------------------------------------
-% initial_delay = 60*0; % In seconds
-% experiment_pattern_times = [20, 20, 20, 20, 20] * 60 ;
-% % experiment_pattern_times = [1, 1, 1, 1, 1] * 60 ;
-% experiment_pattern_times_cumulative = cumsum(experiment_pattern_times);
-% experiment_pattern_values = [0, 1, 0, 1, 0];
-% experiment_time_length = sum(experiment_pattern_times); % in seconds
-
-% --- DEBUG TIMES
-% initial_delay = 3;
-% experiment_pattern_times = [10, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10] * 2 ;
-% experiment_pattern_times_cumulative = cumsum(experiment_pattern_times);
-% experiment_pattern_values = [0, 1, 0, 1, 0 ,1, 0, 1, 0, 1, 0];
-% experiment_time_length = sum(experiment_pattern_times); % in seconds
-
-%% ------------------------------------------------------------
-
-
-
-cd([fullfile(code_folder,'matlab_files')]);
 currentRun = datestr(now, 'yyyymmddTHHMMSS');
-microscopyFolderName = fullfile(data_folder, strcat('microscope_images_', currentRun));
+subexperiment_name = strcat('microscope_images_', currentRun)
+microscopyFolderName = fullfile(data_folder, subexperiment_name);
 locationFile = fullfile(code_folder, 'multipoints.xml');
 mkdir(fullfile(microscopyFolderName,'data'))
 
-% Process python files
-python_path = fullfile(code_folder,'DMD_closed_loop_Left_right_half');
-python_input_path = fullfile(microscopyFolderName,'segmentation');
-python_output_path = fullfile(microscopyFolderName,'py_output');
-if ~exist(python_output_path,'dir')
-    mkdir(python_output_path);
-end
+% Folder on server to storage images after finishing experiment
 
-% Edit config file for input and output path
-modify_config(fullfile(python_path,'config.json'), 'input.input_dir', python_input_path)
-modify_config(fullfile(python_path,'config.json'), 'output.output_dir', python_output_path)
+root_destination_folder = 'Y:\khammash\MC\microscope\CyGenTiG_Git'
+destination_experiment_folder = fullfile(root_destination_folder,experiment)
+mkdir(destination_experiment_folder)
+destination_folder = fullfile(destination_experiment_folder,subexperiment_name)
+mkdir(destination_folder)
 
-%% Read the layout and config
-% Output contain the layout info in 1 dimension, size is the dimension of layout
-% [Output,Size] = read_layout(code_folder);
-% Period = Output{1}; % Only value used in script, imported from excel file
-% intensity = Output{2}; % Raw intensity values from layout.xlsx
-% Read light normalization factor from config.json
-% config_json_path = fullfile(python_path, 'config.json');
-% config_data = jsondecode(fileread(config_json_path));
-% light_normalization = config_data.control.light_normalization; % mW/cm^2 when DMD intensity = 255
 
 % Layout intensities are the actual desired intensities in mW/cm^2
 actual_intensities = intensity; % These are already in mW/cm^2
@@ -125,45 +93,7 @@ end
 % Ensure no negative values
 dmd_intensities = max(0, dmd_intensities);
 
-fprintf('Light normalization factor: %.3f mW/cm^2 (at DMD intensity 255)\n', light_normalization);
-fprintf('Actual intensities range: %.3f - %.3f mW/cm^2\n', min(actual_intensities), max(actual_intensities));
-fprintf('DMD intensities range: %d - %d\n', min(dmd_intensities), max(dmd_intensities));
 
-Using_DMD = true;
-
-% Initialize DMD once for the entire experiment to avoid reinitialization issues
-% if Using_DMD
-%     fprintf('Initializing DMD for the experiment...\n');
-    
-%     % Add DMD path from local matlab_files folder
-%     current_dir = fileparts(mfilename('fullpath'));
-%     dmd_path = fullfile(current_dir, 'driverDMD');
-%     if exist(dmd_path, 'dir')
-%         addpath(genpath(dmd_path), '-end');
-%         if usejava('desktop')
-%             fprintf('✓ Added DMD driver path: %s\n', dmd_path);
-%         end
-%     else
-%         warning('DMD driver path not found: %s', dmd_path);
-%     end
-    
-    % Initialize DMD once for the entire experiment
-
-    % experiment_dmd = DMD;
-    % experiment_dmd.definePattern;
-    % experiment_dmd.setMode(3);
-
-% end
-
-% Let's assume period should be the multiples of 5
-% Check if it's multiple of 5 first
-% if any(mod(Period,30))
-%     error("The period should be multiples of 50")
-% end
-
-% Calculate the multiplier of Period
-% PERIOD FOR IMAGING
-% Period = 120; % seconds
 Period_Multiplier = floor(Period/Period); 
 Period_Multiplier_temp = Period_Multiplier;
 
@@ -174,26 +104,10 @@ n_well = length(Period);
 parameters.n_well = n_well;
 parameters.history_experiment = ""; % Full path for the folder of experiment data
 process_experiment(parameters.history_experiment);
-
 positionIndeces = 1:n_well; % for 24 well plate
 
-%% Parameters
-run = "RUN";
-
-%% USER DEFINED IMAGING PARAMETERS
-% imaging.types = {'brightfield','Cy3'};
-% imaging.groups = {'Channels','Trigger'};
-% imaging.exposure = {10, 2000};
-% imaging.zOffsets = {[0,-0.5,+0.5], [0]};
-% imaging.condenser = {5, 5};
-
-%% 
-% STIMULATION DELAY
-stimDel = -Inf; %ceil(6 * 60 * 60 / period);
-stimDur = Inf; %ceil(48 * 60 * 60 / period);
 
 %% Initialization
-
 % MAKE MICROSCOPY FOLDER
 mkdir(microscopyFolderName);
 
@@ -265,10 +179,6 @@ current_pattern = 0;
 % set position only once
 go_to_position(positionIndeces(1),xyPoints,microscope);
 
-% dmd always on setup
-% img_matrix = pattern_collection{positionIndeces(1)};
-% experiment_dmd.display(img_matrix);
-% pause(2)
 
 % Iterate over the loop until time reached
 while true
@@ -280,7 +190,7 @@ while true
         last_period_start = datetime("now");
         microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('0');
         pause(0.5);
-        capture_images(config, imaging, xyPoints, positionIndeces(1), microscope); % Projcetor block would swtich to empty one, but shutter would open after capturing images
+        % capture_images(config, imaging, xyPoints, positionIndeces(1), microscope); % Projcetor block would swtich to empty one, but shutter would open after capturing images
         pause(0.5);
         if current_pattern == 1
             % To activate the DMD path, need to set the projector block to correct position
@@ -325,6 +235,10 @@ while true
     if total_experiment_time > experiment_time_length
         % Open projection shutter to start illumination
         microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('0');
+        copyfile(microscopyFolderName, destination_folder)
+        system('Y:\khammash\MC\microscope\experiment_git_sync\Fake_DMD_test\syncexp.bat')
+        % After-processing bat later todo 
+
         error("Time limit reached, bye bye!");
     end
 
