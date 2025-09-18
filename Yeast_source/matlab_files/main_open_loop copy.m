@@ -125,12 +125,8 @@ else
 end
 
 % INITIAL MICROSCOPE-CONFIGURATION (Projection Shutter closed)
-log('DMD shutter to 0...')
 microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('0');
-log('... done')
-log('DMD filter block to 0...')
 microscope.getDevice(config.deviceFilterBlockProj).getProperty(config.propertyFilterBlock).setValue('0'); % Change to empty filter
-log('... done')
 area_log = [];
 
 % Create DMD patterns based on calculated DMD intensity values
@@ -156,9 +152,7 @@ end
 try
 
     % shutter closed at the start of the experiment
-    log('DMD shutter to 0...')
-    microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('0');
-    log('... done')
+microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('0');
 
 log('setup completed')
 
@@ -199,18 +193,12 @@ while true
         microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('0');
         log('... done')
         pause(0.5);
-        log('capturing images...')
         capture_images(config, imaging, xyPoints, positionIndeces(1), microscope); % Projcetor block would swtich to empty one, but shutter would open after capturing images
-        log('... done')
         pause(0.5);
         if current_pattern == 1
             % To activate the DMD path, need to set the projector block to correct position
-            log('DMD filter block to 1...')
             microscope.getDevice(config.deviceFilterBlockProj).getProperty(config.propertyFilterBlock).setValue(num2str('1'));
-            log('... done')
-            log('DMD shutter to 1...')
             microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('1');
-            log('... done')
         end
         config.sampleNum = config.sampleNum + 1; % Addup 1 sampleNum(time stamp)
     end
@@ -227,20 +215,13 @@ while true
         current_pattern = experiment_pattern_values(pattern_index);
 
         if last_pattern ~= current_pattern
-            log(['Changing pattern from ' num2str(last_pattern) ' to ' num2str(current_pattern)])
             if current_pattern == 1
-                log('DMD filter block to 1...')
                 microscope.getDevice(config.deviceFilterBlockProj).getProperty(config.propertyFilterBlock).setValue(num2str('1'));
-                log('... done')
-                log('DMD shutter to 1...')
                 microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('1');
-                log('... done')
                 % img_matrix = pattern_collection{positionIndeces(1)};
                 % experiment_dmd.display(img_matrix);
             else
-                log('DMD shutter to 0...')
                 microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('0');
-                log('... done')
                 % img_matrix = zeros(1080,1920);
                 % experiment_dmd.display(img_matrix);
             end
@@ -264,9 +245,7 @@ while true
         mkdir(destination_folder)
 
         % Open projection shutter to start illumination
-        log('DMD shutter to 0...')
         microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('0');
-        log('... done')
         copyfile(microscopyFolderName, destination_folder);
         system('Y:\khammash\MC\microscope\experiment_git_sync\Fake_DMD_test\syncexp.bat');
         exp_info = struct();
