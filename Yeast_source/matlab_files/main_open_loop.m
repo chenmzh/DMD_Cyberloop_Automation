@@ -62,12 +62,16 @@ data_folder = fullfile(data_root,'data',experiment);
 currentRun = datestr(now, 'yyyymmddTHHMMSS');
 subexperiment_name = strcat('microscope_images_', currentRun)
 microscopyFolderName = fullfile(data_folder, subexperiment_name);
-% microscopyFolderName = 'E:\MC\data\Yeast_Git_testcase_20250917180011\microscope_images_20250918T110810'
+microscopyFolderName = 'E:\MC\data\Yeast_Git_testcase_20250917180011\microscope_images_20250918T113132'
 locationFile = fullfile(code_folder, 'multipoints.xml');
-mkdir(fullfile(microscopyFolderName,'data'))
+log_data_folder =fullfile(microscopyFolderName,'data')
+mkdir(log_data_folder)
 
-
-
+% instantiate the logger
+log = logger(fullfile(log_data_folder, 'log.txt'))
+log("TEST:" + log_data_folder)
+log("MicroscopyFolderName:" + microscopyFolderName)
+log("END ///")
 
 % Layout intensities are the actual desired intensities in mW/cm^2
 actual_intensities = intensity; % These are already in mW/cm^2
