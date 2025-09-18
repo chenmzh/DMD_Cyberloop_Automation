@@ -49,7 +49,8 @@ imaging.groups    = config_exp.imaging.groups;
 imaging.exposure  = config_exp.imaging.exposure;        
 imaging.zOffsets  = config_exp.imaging.zOffsets;        
 imaging.condenser = config_exp.imaging.condenser;        
-
+imaging.n_subimages = 3; %^2
+imaging.field_diagonal = 1.3 * 10 ^ 3; % um
 
 
 %% Setup working path
@@ -61,16 +62,11 @@ data_folder = fullfile(data_root,'data',experiment);
 currentRun = datestr(now, 'yyyymmddTHHMMSS');
 subexperiment_name = strcat('microscope_images_', currentRun)
 microscopyFolderName = fullfile(data_folder, subexperiment_name);
+% microscopyFolderName = 'E:\MC\data\Yeast_Git_testcase_20250917180011\microscope_images_20250918T110810'
 locationFile = fullfile(code_folder, 'multipoints.xml');
 mkdir(fullfile(microscopyFolderName,'data'))
 
-% Folder on server to storage images after finishing experiment
 
-root_destination_folder = 'Y:\khammash\MC\microscope\CyGenTiG_Git'
-destination_experiment_folder = fullfile(root_destination_folder,experiment)
-mkdir(destination_experiment_folder)
-destination_folder = fullfile(destination_experiment_folder,subexperiment_name)
-mkdir(destination_folder)
 
 
 % Layout intensities are the actual desired intensities in mW/cm^2
@@ -190,7 +186,7 @@ while true
         last_period_start = datetime("now");
         microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('0');
         pause(0.5);
-        % capture_images(config, imaging, xyPoints, positionIndeces(1), microscope); % Projcetor block would swtich to empty one, but shutter would open after capturing images
+        capture_images(config, imaging, xyPoints, positionIndeces(1), microscope); % Projcetor block would swtich to empty one, but shutter would open after capturing images
         pause(0.5);
         if current_pattern == 1
             % To activate the DMD path, need to set the projector block to correct position
@@ -233,6 +229,14 @@ while true
     total_experiment_time = seconds(dt);
 
     if total_experiment_time > experiment_time_length
+
+        % Folder on server to storage images after finishing experiment
+        root_destination_folder = 'Y:\khammash\MC\microscope\CyGenTiG_Git'
+        destination_experiment_folder = fullfile(root_destination_folder,experiment)
+        mkdir(destination_experiment_folder)
+        destination_folder = fullfile(destination_experiment_folder,subexperiment_name)
+        mkdir(destination_folder)
+
         % Open projection shutter to start illumination
         microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('0');
         copyfile(microscopyFolderName, destination_folder)
