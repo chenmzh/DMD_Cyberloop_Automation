@@ -49,8 +49,6 @@ imaging.groups    = config_exp.imaging.groups;
 imaging.exposure  = config_exp.imaging.exposure;        
 imaging.zOffsets  = config_exp.imaging.zOffsets;        
 imaging.condenser = config_exp.imaging.condenser;        
-imaging.n_subimages = 3; %^2
-imaging.field_diagonal = 1.3 * 10 ^ 3; % um
 
 
 %% Setup working path
@@ -60,18 +58,14 @@ data_root = 'E:\MC';
 data_folder = fullfile(data_root,'data',experiment);
 
 currentRun = datestr(now, 'yyyymmddTHHMMSS');
-subexperiment_name = strcat('microscope_images_', currentRun)
+subexperiment_name = strcat('microscope_images_', currentRun);
 microscopyFolderName = fullfile(char(data_folder), char(subexperiment_name));
-% microscopyFolderName = 'E:\MC\data\Yeast_Git_testcase_20250917180011\microscope_images_20250918T113132'
 locationFile = fullfile(code_folder, 'multipoints.xml');
-log_data_folder =fullfile(microscopyFolderName,'data')
+log_data_folder =fullfile(microscopyFolderName,'data');
 mkdir(log_data_folder)
 
 % instantiate the logger
-log = logger(fullfile(log_data_folder, 'log.txt'))
-log("TEST:" + log_data_folder)
-log("MicroscopyFolderName:" + microscopyFolderName)
-log("END ///")
+log = logger(fullfile(log_data_folder, 'log.txt'));
 
 % Layout intensities are the actual desired intensities in mW/cm^2
 actual_intensities = intensity; % These are already in mW/cm^2
@@ -236,15 +230,23 @@ while true
 
         % Folder on server to storage images after finishing experiment
         root_destination_folder = 'Y:\khammash\MC\microscope\CyGenTiG_Git'
-        destination_experiment_folder = fullfile(root_destination_folder,experiment)
+        destination_experiment_folder = fullfile(root_destination_folder,experiment);
         mkdir(destination_experiment_folder)
-        destination_folder = fullfile(destination_experiment_folder,subexperiment_name)
+        destination_folder = fullfile(destination_experiment_folder,subexperiment_name);
         mkdir(destination_folder)
 
         % Open projection shutter to start illumination
         microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('0');
-        copyfile(microscopyFolderName, destination_folder)
-        system('Y:\khammash\MC\microscope\experiment_git_sync\Fake_DMD_test\syncexp.bat')
+        copyfile(microscopyFolderName, destination_folder);
+        system('Y:\khammash\MC\microscope\experiment_git_sync\Fake_DMD_test\syncexp.bat');
+        exp_info = struct();
+        exp_info.runtime = total_experiment_time;
+        exp_info.file_path = fullfile(log_data_folder,'summary.txt');
+        exp_info.end_time_stamp = current_time
+
+        create_summary(exp_info);
+
+
         % After-processing bat later todo 
 
         error("Time limit reached, bye bye!");

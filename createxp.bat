@@ -53,6 +53,7 @@ if not exist "%exp_config_file_path%" (
         echo     config_exp.imaging.exposure = {10, 2000};
         echo     config_exp.imaging.zOffsets = {[0,-0.5,+0.5], [0]};
         echo     config_exp.imaging.condenser = {5, 5};
+        echo     config_exp.imaging.message = '';
         echo end
     ) > "%exp_config_file_path%"
     echo New config file created at %exp_config_file_path%

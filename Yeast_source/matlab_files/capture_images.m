@@ -38,7 +38,7 @@ for indx=1:numImagingTypes
         end
         
         % Save captured image
-        imwrite(matlabImage, [config.imageFileLocation filesep num2str(posNum, '%01d') '_' imaging.types{indx} '_z' num2str(zIndx) '_t' num2str(config.sampleNum, '%06d') '.tif']);
+        imwrite(matlabImage, fullfile(config.imageFileLocation, [num2str(posNum, '%01d') '_' imaging.types{indx} '_z' num2str(zIndx) '_t' num2str(config.sampleNum, '%06d') '.tif']));
         imageEvent = [];
         imageType = [];
         matlabImage = [];
