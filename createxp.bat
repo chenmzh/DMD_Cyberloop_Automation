@@ -1,11 +1,11 @@
 :: Run this file before starting the experiment.
 :: This file would save the previous state and initialize a new experiment by setting a new config file.
 @echo off
-@REM git add -A
+git add -A
 for /f "tokens=2-4 delims=/ " %%a in ('date /t') do set mydate=%%c%%a%%b
 for /f %%a in ('powershell -command "Get-Date -Format 'HHmmss'"') do set mytime=%%a
-@REM git commit -m "Create Experiment date %mydate% and time %mytime%, having a fresh start"
-@REM git push
+git commit -m "Create Experiment date %mydate% and time %mytime%, having a fresh start"
+git push
 
 
 :: Create timestamp
@@ -53,7 +53,7 @@ if not exist "%exp_config_file_path%" (
         echo     config_exp.imaging.exposure = {10, 2000};
         echo     config_exp.imaging.zOffsets = {[0,-0.5,+0.5], [0]};
         echo     config_exp.imaging.condenser = {5, 5};
-        echo     config_exp.imaging.message = '';
+        echo     config_exp.imaging.message = [''];
         echo end
     ) > "%exp_config_file_path%"
     echo New config file created at %exp_config_file_path%

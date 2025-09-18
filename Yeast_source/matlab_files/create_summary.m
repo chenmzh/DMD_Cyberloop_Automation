@@ -56,7 +56,7 @@ function summary = create_summary(exp_info)
     end
     
     if ~isempty(config_exp.imaging.message)
-        fprintf(fid, 'Imaging Notes: %s\n', config_exp.imaging.message);
+        fprintf(fid, 'Experiment Notes: %s\n', config_exp.imaging.message);
     end
     fprintf(fid, '\n');
     
