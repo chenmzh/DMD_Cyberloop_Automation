@@ -12,6 +12,9 @@ password = 'tflcemzdmypjmsku'; % Your Gmail password
 server = 'smtp.gmail.com';
 port = '465';
 
+% set up Telegram bot 
+telegram_send = telepush('host',"10.146.224.80", 'port',8787, 'secret',"change-me");
+
 setpref('Internet', 'E_mail', mail);
 setpref('Internet', 'SMTP_Server', server);
 setpref('Internet', 'SMTP_Username', mail);
@@ -164,7 +167,7 @@ log('setup completed')
 
 % apply initial delay
 pause(initial_delay)
-
+telegram_send("Starting open loop experiment: " + experiment + " with initial delay of " + num2str(initial_delay) + " seconds.")
 log("starting experiment")
 
 % saving initial starting time
@@ -185,7 +188,7 @@ current_pattern = 0;
 log("moving to capturing position ...")
 go_to_position(positionIndeces(1),xyPoints,microscope);
 log("...done")
-
+telegram_send("Microscope moved to position. Starting open loop illumination.")
 
 % Iterate over the loop until time reached
 while true
@@ -276,9 +279,7 @@ while true
 
         create_summary(exp_info);
 
-
-        % After-processing bat later todo 
-
+        telegram_send("Open loop experiment: " + experiment + " completed successfully! Total time: " + num2str(total_experiment_time) + " seconds. Data copied to server.")
         error("Time limit reached, bye bye!");
     end
 
