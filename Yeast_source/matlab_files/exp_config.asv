@@ -21,5 +21,5 @@ function [config_exp] = exp_config(imagingFolderName)
     config_exp.imaging.exposure = {10, 2000};
     config_exp.imaging.zOffsets = {[0], [0]};
     config_exp.imaging.condenser = {5, 5};
-    config_exp.imaging.message = ['Change to new oil F1, should have cleaner background, evaluating the drifting, the humidity is 70%, tried with plate holder with clamps. Yeast overgrow a little'];
+    config_exp.imaging.message = ['Change to new oil F1, should have cleaner background '];
 end

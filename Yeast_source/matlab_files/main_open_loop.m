@@ -5,6 +5,14 @@
 % Intensity scaling is controlled by light_normalization parameter in config.json
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+original_root_folder = pwd();
+
+% Set the codebase folder
+code_folder =  'Y:\khammash\MC\microscope\experiment_git_sync\Fake_DMD_test\Yeast_source';
+cd([fullfile(code_folder,'matlab_files')]);
+
+
 %% sending messages when error
 % Set up email sending preferences
 mail = 'MingzheMicroscope@gmail.com'; % Your Gmail address
@@ -13,7 +21,7 @@ server = 'smtp.gmail.com';
 port = '465';
 
 % set up Telegram bot 
-telegram_send = telepush('host',"10.146.224.80", 'port',8787, 'secret',"change-me");
+telegram_send = telepush('host', "10.146.224.80", 'port', 8787, 'secret', "change-me");
 
 setpref('Internet', 'E_mail', mail);
 setpref('Internet', 'SMTP_Server', server);
@@ -24,10 +32,6 @@ props = java.lang.System.getProperties;
 props.setProperty('mail.smtp.auth', 'true');
 props.setProperty('mail.smtp.socketFactory.class', 'javax.net.ssl.SSLSocketFactory');
 props.setProperty('mail.smtp.socketFactory.port', port);
-
-% Set the codebase folder
-code_folder =  'Y:\khammash\MC\microscope\experiment_git_sync\Fake_DMD_test\Yeast_source';
-cd([fullfile(code_folder,'matlab_files')]);
 
 % Read exp_config file
 config_exp = exp_config()
@@ -69,6 +73,7 @@ mkdir(log_data_folder)
 
 % instantiate the logger
 log = logger(fullfile(log_data_folder, 'log.txt'));
+log(['original root folder is ', original_root_folder]);
 
 % Layout intensities are the actual desired intensities in mW/cm^2
 actual_intensities = intensity; % These are already in mW/cm^2
