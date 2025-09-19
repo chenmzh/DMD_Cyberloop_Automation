@@ -270,7 +270,7 @@ while true
         log('DMD shutter to 0...')
         microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('0');
         log('... done')
-        copyfile(microscopyFolderName, destination_folder);
+       
         system('Y:\khammash\MC\microscope\experiment_git_sync\Fake_DMD_test\syncexp.bat');
         exp_info = struct();
         exp_info.runtime = total_experiment_time;
@@ -278,6 +278,10 @@ while true
         exp_info.end_time_stamp = current_time
 
         create_summary(exp_info);
+
+
+        % Copy file after summary generated
+        copyfile(microscopyFolderName, destination_folder);
 
         telegram_send("Open loop experiment: " + experiment + " completed successfully! Total time: " + num2str(total_experiment_time) + " seconds. Data copied to server.")
         error("Time limit reached, bye bye!");
