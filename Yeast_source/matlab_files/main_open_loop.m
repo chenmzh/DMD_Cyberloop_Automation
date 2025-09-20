@@ -163,7 +163,7 @@ end
 % Function that can potentially raise an error
 try
 
-    % shutter closed at the start of the experiment
+    % shutter closed at the start of the experiment 
     log('DMD shutter to 0...')
     microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('0');
     log('... done')
@@ -171,8 +171,8 @@ try
 log('setup completed')
 
 % apply initial delay
-pause(initial_delay)
 telegram_send("Starting open loop experiment: " + experiment + " with initial delay of " + num2str(initial_delay) + " seconds.")
+pause(initial_delay)
 log("starting experiment")
 
 % saving initial starting time
@@ -265,7 +265,7 @@ while true
     if total_experiment_time > experiment_time_length
 
         % Folder on server to storage images after finishing experiment
-        root_destination_folder = 'Y:\khammash\MC\microscope\CyGenTiG_Git'
+        root_destination_folder = 'Y:\khammash\MC\microscope\CyGenTiG_AUTO'
         destination_experiment_folder = fullfile(root_destination_folder,experiment);
         mkdir(destination_experiment_folder)
         destination_folder = fullfile(destination_experiment_folder,subexperiment_name);
