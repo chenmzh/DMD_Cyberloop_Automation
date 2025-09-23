@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?><simple-measurement>
+  <name>unnamed</name>
+  <save-settings type="org.youscope.plugin.standardsavesettings.StandardSaveSettingsConfiguration">
+    <base-folder></base-folder>
+    <image-file-type>tif</image-file-type>
+    <folder-structure-type>ALL_IN_ONE_FOLDER</folder-structure-type>
+  </save-settings>
+  <runtime>-1</runtime>
+  <start-device-settings/>
+  <end-device-settings/>
+  <metadata>
+    <entry>
+      <string>Temperature</string>
+      <string>0C</string>
+    </entry>
+    <entry>
+      <string>Species</string>
+      <string>Anolis carolinensis</string>
+    </entry>
+    <entry>
+      <string>Strain</string>
+      <string></string>
+    </entry>
+  </metadata>
+  <description></description>
+  <jobs>
+    <scripting-job use-client-engine="no" engine="Matlab Scripting" file="file:/Y:/khammash/MC/microscope/experiment_git_sync/Fake_DMD_test/Yeast_source/matlab_files/main_open_loop.m">
+      <jobs/>
+    </scripting-job>
+  </jobs>
+  <statistics-file>statistics</statistics-file>
+  <allow-edits-while-running>false</allow-edits-while-running>
+  <period type="regular-period" start="0" num-executions="-1" period="0" fixed="no"/>
+</simple-measurement>
