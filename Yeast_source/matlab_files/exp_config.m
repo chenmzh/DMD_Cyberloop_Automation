@@ -21,5 +21,5 @@ function [config_exp] = exp_config(imagingFolderName)
     config_exp.imaging.exposure = {10, 2000};
     config_exp.imaging.zOffsets = {[0], [0]};
     config_exp.imaging.condenser = {5, 5};
-    config_exp.imaging.message = ['Increasing and decreasing pattern.'];
+    config_exp.imaging.message = ['Increasing and decreasing pattern, same as previous run, but bursty strain'];
 end
