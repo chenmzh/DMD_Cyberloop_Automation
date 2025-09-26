@@ -293,7 +293,7 @@ while true
         log('DMD shutter to 0...')
         microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('0');
         log('... done')
-        command = sprintf('Y:\\khammash\\MC\\microscope\\experiment_git_sync\\Fake_DMD_test\\syncexp.bat %s', additional_git_message);
+        command = sprintf('Y:\\khammash\\MC\\microscope\\experiment_git_sync\\Fake_DMD_test\\syncexp.bat "%s"', additional_git_message);
         system(command);
         exp_info = struct();
         exp_info.runtime = total_experiment_time;
