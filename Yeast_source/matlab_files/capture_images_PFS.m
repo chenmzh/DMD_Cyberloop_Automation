@@ -4,7 +4,6 @@ numImagingTypes = length(imaging.types);
 camera = microscope.getCameraDevice();
 
 
-% % the following 2 are commented before
 microscope.getDevice('PFS').getProperty('FocusMaintenance').setValue('On'); % setup PFS
 pause(0.5);
 microscope.getDevice(config.devicePFSOffset).getProperty(config.propertyPFSOffset).setValue(num2str(xy.pfsOffset(posNum))); % Need to turn on PFS first, then change the offset

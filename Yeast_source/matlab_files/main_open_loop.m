@@ -195,10 +195,21 @@ last_period_start = datetime('now');
 is_first_time = true;
 last_pattern = -1;
 current_pattern = 0;
+if UsingPFS
+    log("moving to capturing position ...")
+    go_to_position_PFS(positionIndeces(1),xyPoints,microscope);
+    microscope.getDevice('PFS').getProperty('FocusMaintenance').setValue('On'); % setup PFS
+    microscope.getDevice(config.devicePFSOffset).getProperty(config.propertyPFSOffset).setValue(num2str(xyPoints.pfsOffset(positionIndeces(1)))); % Need to turn on PFS first, then change the offset
+    pause(2);
+    log("...done")
+else
+    log("moving to capturing position ...")
+    go_to_position(positionIndeces(1),xyPoints,microscope);
+    log("...done")
+end
+
 % set position only once
-log("moving to capturing position ...")
-go_to_position(positionIndeces(1),xyPoints,microscope);
-log("...done")
+
 telegram_send("Microscope moved to position. Starting open loop illumination.")
 
 % Iterate over the loop until time reached
