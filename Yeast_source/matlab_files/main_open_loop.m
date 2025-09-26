@@ -51,11 +51,17 @@ Period = config_exp.Period;
 intensity = config_exp.intensity;
 light_normalization = config_exp.light_normalization;
 
+%% If using PFS or not
+UsingPFS = config_exp.UsingPFS;
+
+
 imaging.types     = config_exp.imaging.types;        
 imaging.groups    = config_exp.imaging.groups;       
 imaging.exposure  = config_exp.imaging.exposure;        
 imaging.zOffsets  = config_exp.imaging.zOffsets;        
 imaging.condenser = config_exp.imaging.condenser;        
+
+additional_git_message = config_exp.imaging.message
 
 
 %% Setup working path
@@ -207,9 +213,21 @@ while true
         microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('0');
         log('... done')
         pause(0.5);
-        log('capturing images...')
-        capture_images(config, imaging, xyPoints, positionIndeces(1), microscope); % Projcetor block would swtich to empty one, but shutter would open after capturing images
-        log('... done')
+
+        if UsingPFS
+            log('Using PFS')
+            go_to_position_PFS(positionIndeces(1),xyPoints,microscope); % Without z axis
+            log('capturing images...')
+            capture_images_PFS(config, imaging, xyPoints, positionIndeces(1), microscope);
+            log('... done')
+        else
+            log('Not using PFS')
+            log('capturing images...')
+            capture_images(config, imaging, xyPoints, positionIndeces(1), microscope); % Projcetor block would swtich to empty one, but shutter would open after capturing images
+            log('... done')
+        end
+        currentZ = string(microscope.getDevice(config.deviceZDrive).getProperty(config.propertyZDrive).getValue());
+        log("z value is set to: " + currentZ)
         pause(0.5);
         if current_pattern == 1
             % To activate the DMD path, need to set the projector block to correct position
@@ -275,8 +293,8 @@ while true
         log('DMD shutter to 0...')
         microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('0');
         log('... done')
-       
-        system('Y:\khammash\MC\microscope\experiment_git_sync\Fake_DMD_test\syncexp.bat');
+        command = sprintf('Y:\\khammash\\MC\\microscope\\experiment_git_sync\\Fake_DMD_test\\syncexp.bat %s', additional_git_message);
+        system(command);
         exp_info = struct();
         exp_info.runtime = total_experiment_time;
         exp_info.file_path = fullfile(log_data_folder,'summary.txt');
