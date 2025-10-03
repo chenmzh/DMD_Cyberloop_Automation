@@ -21,7 +21,7 @@ server = 'smtp.gmail.com';
 port = '465';
 
 % set up Telegram bot 
-telegram_send = telepush('host', "10.146.224.80", 'port', 8787, 'secret', "change-me");
+telegram_send = telepush('host', "10.146.224.25", 'port', 8787, 'secret', "change-me");
 
 setpref('Internet', 'E_mail', mail);
 setpref('Internet', 'SMTP_Server', server);
