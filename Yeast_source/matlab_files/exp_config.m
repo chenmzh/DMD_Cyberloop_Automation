@@ -5,35 +5,38 @@ function [config_exp] = exp_config(imagingFolderName)
 
     % Progressive PWM pattern with increasing cycle periods
     
-    cycle_periods = [30, 60, 120, 180, 240, 300]; % seconds
-    % cycle_on_time = [30, 60, 120, 180, 240, 300, 360, 600]; % seconds
+    cycle_total_on_time = [30, 60, 120, 180, 240, 300]; % seconds, total on time
+    % cycle_on_time = [30, 60, 120, 180, 240, 300]; % seconds
     
-    pwm_duration = 1800; % 30 minutes
-    off_duration = 1200; % 20 minutes
+    pwm_duration = 1200; % 20 minutes
+    off_duration = 600; % 10 minutes, extra off time between different cycle on time.
     % Pulsatile Period
-    % PP = 300 % 5 mins
-    % Frequency = pwm_duration/PP
-    % On_time = cycle_periods/Frequency
+    PP = 300 % 5 mins, total on time will be spread out during the pwm_duration
+    Frequency = pwm_duration/PP
+    On_time_list = cycle_total_on_time/Frequency
 
     times = [];
     values = [];
 
-    for i = 1:length(cycle_periods)
+    for i = 1:length(cycle_total_on_time)
+        
         % Add 20 min off period
         times = [times, off_duration];
         values = [values, 0];
         
-        cycle_period = cycle_periods(i);
-        
+        On_time = On_time_list(i);
+        if On_time > PP
+            On_time = PP
+        end
         % Generate PWM with 50% duty cycle
-        [pwm_times, pwm_values] = pwm_pattern(pwm_duration, cycle_period/2, cycle_period/2);
-        % [pwm_times, pwm_values] = pwm_pattern(pwm_duration, On_time, PP - On_time);
+        % [pwm_times, pwm_values] = pwm_pattern(pwm_duration, cycle_period/2, cycle_period/2);
+        [pwm_times, pwm_values] = pwm_pattern(pwm_duration, On_time, PP - On_time); % pwm_times return the pattern that spreading the cycle total on time to the pwm period 
         times = [times, pwm_times];
         values = [values, pwm_values];
 
     end
 
-    % Final 20 min off period
+    % Final 10 min off period
     times = [times, off_duration];
     values = [values, 0];
 
@@ -44,13 +47,13 @@ function [config_exp] = exp_config(imagingFolderName)
     config_exp = [];
     %% EXPERIMENT SPECIFIC PARAMETERS
     config_exp.experiment_name = 'Yeast_Git';
-    config_exp.time_date = '20251003';
-    config_exp.time_hour = '115203';
+    config_exp.time_date = '20251006';
+    config_exp.time_hour = '115745';
     config_exp.organism = 'Yeast';
     config_exp.objective_type = '40x_oil';
     config_exp.magnification = '40x*1.5=60x';
-    config_exp.strains = 'GE';
-    config_exp.initial_delay = 60*10; %% In seconds
+    config_exp.strains = 'BGE';
+    config_exp.initial_delay = 60*10; %% In seconds, may not used in this case
     config_exp.experiment_pattern_times = times_pwm_pattern;	
     config_exp.experiment_pattern_values = values_pwm_pattern;
     config_exp.Period = 120;
