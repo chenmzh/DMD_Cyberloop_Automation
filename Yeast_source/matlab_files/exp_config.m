@@ -5,13 +5,13 @@ function [config_exp] = exp_config(imagingFolderName)
 
     % Progressive PWM pattern with increasing cycle periods
     
-    cycle_total_on_time = [30, 60, 120, 180, 240, 300]; % seconds, total on time
+    cycle_total_on_time = [5, 5, 10, 10, 20, 20, 30, 30, 60, 60, 90, 90, 120, 120]; % seconds, total on time
     % cycle_on_time = [30, 60, 120, 180, 240, 300]; % seconds
     
-    pwm_duration = 1200; % 20 minutes
-    off_duration = 600; % 10 minutes, extra off time between different cycle on time.
+    pwm_duration = 120; % 120 seconds
+    off_duration = 60; % 1 minutes, extra off time between different cycle on time.
     % Pulsatile Period
-    PP = 300 % 5 mins, total on time will be spread out during the pwm_duration
+    PP = 30 % 5 mins, total on time will be spread out during the pwm_duration
     Frequency = pwm_duration/PP
     On_time_list = cycle_total_on_time/Frequency
 
@@ -52,11 +52,11 @@ function [config_exp] = exp_config(imagingFolderName)
     config_exp.organism = 'Yeast';
     config_exp.objective_type = '40x_oil';
     config_exp.magnification = '40x*1.5=60x';
-    config_exp.strains = 'GE';
+    config_exp.strains = 'BGE';
     config_exp.initial_delay = 60*10; %% In seconds, may not used in this case
     config_exp.experiment_pattern_times = times_pwm_pattern;	
     config_exp.experiment_pattern_values = values_pwm_pattern;
-    config_exp.Period = 120;
+    config_exp.Period = 60;
     config_exp.intensity = 17.3;
     config_exp.light_normalization = 69.2;
     config_exp.imaging.types = {'brightfield','Cy3'};
