@@ -5,10 +5,10 @@ function [config_exp] = exp_config(imagingFolderName)
 
     % Progressive PWM pattern with increasing cycle periods
     
-    cycle_total_on_time = [5, 5, 10, 10, 20, 20, 30, 30, 60, 60, 90, 90, 120, 120]; % seconds, total on time
+    cycle_total_on_time = [10, 10, 20, 20, 30, 30, 60, 60, 90, 90, 120, 120, 240, 240]; % seconds, total on time
     % cycle_on_time = [30, 60, 120, 180, 240, 300]; % seconds
     
-    pwm_duration = 120; % 120 seconds
+    pwm_duration = 240; % 240 seconds
     off_duration = 60; % 1 minutes, extra off time between different cycle on time.
     % Pulsatile Period
     PP = 30 % 5 mins, total on time will be spread out during the pwm_duration
@@ -56,7 +56,7 @@ function [config_exp] = exp_config(imagingFolderName)
     config_exp.initial_delay = 60*10; %% In seconds
     config_exp.experiment_pattern_times = times_pwm_pattern;	
     config_exp.experiment_pattern_values = values_pwm_pattern;
-    config_exp.Period = 60;
+    config_exp.Period = 30;
     config_exp.intensity = 17.3;
     config_exp.light_normalization = 69.2;
     config_exp.imaging.types = {'brightfield','Cy3'};
@@ -64,6 +64,6 @@ function [config_exp] = exp_config(imagingFolderName)
     config_exp.imaging.exposure = {10, 2000};
     config_exp.imaging.zOffsets = {[0], [0]};
     config_exp.imaging.condenser = {5, 5};
-    config_exp.imaging.message = ['Shorter wait between different duty cycles of PWN pulse to see the effect of delay on the next pulse'];
+    config_exp.imaging.message = ['Shorter wait between different duty cycles of PWN pulse to see the effect of delay on the next pulse. double the lasting time for each PWN, increase the sampling frequency'];
     config_exp.UsingPFS = true;
 end
