@@ -52,7 +52,7 @@ function [config_exp] = exp_config(imagingFolderName)
     config_exp.organism = 'Yeast';
     config_exp.objective_type = '40x_oil';
     config_exp.magnification = '40x*1.5=60x';
-    config_exp.strains = 'BGE';
+    config_exp.strains = 'GE';
     config_exp.initial_delay = 60*10; %% In seconds
     config_exp.experiment_pattern_times = times_pwm_pattern;	
     config_exp.experiment_pattern_values = values_pwm_pattern;
