@@ -47,12 +47,12 @@ function [config_exp] = exp_config(imagingFolderName)
     config_exp = [];
     %% EXPERIMENT SPECIFIC PARAMETERS
     config_exp.experiment_name = 'Yeast_Git';
-    config_exp.time_date = '20251007';
-    config_exp.time_hour = '113846';
+    config_exp.time_date = '20251008';
+    config_exp.time_hour = '121825';
     config_exp.organism = 'Yeast';
     config_exp.objective_type = '40x_oil';
     config_exp.magnification = '40x*1.5=60x';
-    config_exp.strains = 'GE';
+    config_exp.strains = 'BGE';
     config_exp.initial_delay = 60*10; %% In seconds
     config_exp.experiment_pattern_times = times_pwm_pattern;	
     config_exp.experiment_pattern_values = values_pwm_pattern;
