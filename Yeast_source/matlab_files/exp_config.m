@@ -52,7 +52,7 @@ function [config_exp] = exp_config(imagingFolderName)
     config_exp.organism = 'Yeast';
     config_exp.objective_type = '40x_oil';
     config_exp.magnification = '40x*1.5=60x';
-    config_exp.strains = 'GE';
+    config_exp.strains = 'BGE';
     config_exp.initial_delay = 60*10; %% In seconds
     config_exp.experiment_pattern_times = times_pwm_pattern;	
     config_exp.experiment_pattern_values = values_pwm_pattern;
@@ -64,6 +64,9 @@ function [config_exp] = exp_config(imagingFolderName)
     config_exp.imaging.exposure = {10, 2000};
     config_exp.imaging.zOffsets = {[0], [0]};
     config_exp.imaging.condenser = {5, 5};
-    config_exp.imaging.message = ['Shorter wait between different duty cycles of PWN pulse to see the effect of delay on the next pulse. double the lasting time for each PWN, increase the sampling frequency'];
+    config_exp.imaging.message = ['Test DMD pattern. 
+     Background 1.6uW, 2048*0.07um/pixel = 143.36um, 37.6uW - 1.6 = 36uW before, = 0.00175uW/um^2 = 175mW/cm^2, with 50/255, power is 8.73uW, 8.73-1.6 = 7.13uW
+      normalized to be 34.7mW/cm^2, keep lowering it by 3.4 times. targeting light value is 10mW/cm^2, which is roughly 2uW, add background 1.6 which is 3.6uW
+      In conclustion, its lowered by 4 times compared with previous setup. Using patterns'];
     config_exp.UsingPFS = true;
 end
