@@ -5,7 +5,7 @@ function [config_exp] = exp_config(imagingFolderName)
 
     % Progressive PWM pattern with increasing cycle periods
     
-    cycle_total_on_time = [10, 10, 20, 20, 30, 30, 60, 60, 90, 90, 120, 120, 240, 240]; % seconds, total on time
+    cycle_total_on_time = [60,60, 120, 120, 240, 240]; % seconds, total on time
     % cycle_on_time = [30, 60, 120, 180, 240, 300]; % seconds
     
     pwm_duration = 240; % 240 seconds
@@ -47,8 +47,8 @@ function [config_exp] = exp_config(imagingFolderName)
     config_exp = [];
     %% EXPERIMENT SPECIFIC PARAMETERS
     config_exp.experiment_name = 'Yeast_Git';
-    config_exp.time_date = '20251008';
-    config_exp.time_hour = '121825';
+    config_exp.time_date = '20251009';
+    config_exp.time_hour = '143801';
     config_exp.organism = 'Yeast';
     config_exp.objective_type = '40x_oil';
     config_exp.magnification = '40x*1.5=60x';
@@ -64,9 +64,6 @@ function [config_exp] = exp_config(imagingFolderName)
     config_exp.imaging.exposure = {10, 2000};
     config_exp.imaging.zOffsets = {[0], [0]};
     config_exp.imaging.condenser = {5, 5};
-    config_exp.imaging.message = ['Test DMD pattern. 
-     Background 1.6uW, 2048*0.07um/pixel = 143.36um, 37.6uW - 1.6 = 36uW before, = 0.00175uW/um^2 = 175mW/cm^2, with 50/255, power is 8.73uW, 8.73-1.6 = 7.13uW
-      normalized to be 34.7mW/cm^2, keep lowering it by 3.4 times. targeting light value is 10mW/cm^2, which is roughly 2uW, add background 1.6 which is 3.6uW
-      In conclustion, its lowered by 4 times compared with previous setup. Using patterns'];
+    config_exp.imaging.message = ['Test DMD pattern. Background 1.6uW, 2048*0.07um/pixel = 143.36um, 37.6uW - 1.6 = 36uW before, = 0.00175uW/um^2 = 175mW/cm^2, with 50/255, power is 8.73uW, 8.73-1.6 = 7.13uW. normalized to be 34.7mW/cm^2, keep lowering it by 3.4 times. targeting light value is 10mW/cm^2, which is roughly 2uW, add background 1.6 which is 3.6uW. In conclustion, its lowered by 4 times compared with previous setup. Using patterns C:\Users\Localadmin\Desktop\sant_workspace\sample_patterns\checkerboard_fullHD_int8_0_50_1920x1080.png, tested with high duty cycle'];
     config_exp.UsingPFS = true;
 end
