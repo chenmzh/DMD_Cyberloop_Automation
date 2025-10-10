@@ -5,13 +5,13 @@ function [config_exp] = exp_config(imagingFolderName)
 
     % Progressive PWM pattern with increasing cycle periods
     
-    cycle_total_on_time = [200, 200, 400, 400, 600, 600]; % seconds, total on time
+    cycle_total_on_time = [240, 240, 360, 360, 480, 480]; % seconds, total on time
     % cycle_on_time = [30, 60, 120, 180, 240, 300]; % seconds
     
-    pwm_duration = 600; % 10 minutes
-    off_duration = 900; % 15 minutes, extra off time between different cycle on time.
+    pwm_duration = 480; % 8 minutes
+    off_duration = 600; % 10 minutes, extra off time between different cycle on time.
     % Pulsatile Period
-    PP = 60 % 1 mins, total on time will be spread out during the pwm_duration
+    PP = 30 % 0.5 mins, total on time will be spread out during the pwm_duration
     Frequency = pwm_duration/PP
     On_time_list = cycle_total_on_time/Frequency
 
@@ -48,11 +48,11 @@ function [config_exp] = exp_config(imagingFolderName)
     %% EXPERIMENT SPECIFIC PARAMETERS
     config_exp.experiment_name = 'Yeast_Git';
     config_exp.time_date = '20251010';
-    config_exp.time_hour = '123749';
+    config_exp.time_hour = '123909';
     config_exp.organism = 'Yeast';
     config_exp.objective_type = '40x_oil';
     config_exp.magnification = '40x*1.5=60x';
-    config_exp.strains = 'GE';
+    config_exp.strains = 'BGE';
     config_exp.initial_delay = 60*10; %% In seconds
     config_exp.experiment_pattern_times = times_pwm_pattern;	
     config_exp.experiment_pattern_values = values_pwm_pattern;
