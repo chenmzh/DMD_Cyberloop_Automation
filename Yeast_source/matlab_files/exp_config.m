@@ -47,8 +47,8 @@ function [config_exp] = exp_config(imagingFolderName)
     config_exp = [];
     %% EXPERIMENT SPECIFIC PARAMETERS
     config_exp.experiment_name = 'Yeast_Git';
-    config_exp.time_date = '20251010';
-    config_exp.time_hour = '123909';
+    config_exp.time_date = '20251013';
+    config_exp.time_hour = '111648';
     config_exp.organism = 'Yeast';
     config_exp.objective_type = '40x_oil';
     config_exp.magnification = '40x*1.5=60x';
