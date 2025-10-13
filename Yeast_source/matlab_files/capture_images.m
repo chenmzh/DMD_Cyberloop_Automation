@@ -31,6 +31,7 @@ for indx=1:numImagingTypes
                 microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('0');
             end
         end
+        pause(1);
         %     if current_pattern == 1 && strcmp(imaging.types{indx}, 'projector_capturing')
         % microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('1');   
         % end

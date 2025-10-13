@@ -9,7 +9,7 @@ function [config_exp] = exp_config(imagingFolderName)
     % cycle_on_time = [30, 60, 120, 180, 240, 300]; % seconds
     
     pwm_duration = 480; % 8 minutes
-    off_duration = 600; % 10 minutes, extra off time between different cycle on time.
+    off_duration = 0; % 10 minutes, extra off time between different cycle on time.
     % Pulsatile Period
     PP = 120 % 1 mins, total on time will be spread out during the pwm_duration
     Frequency = pwm_duration/PP
@@ -52,8 +52,8 @@ function [config_exp] = exp_config(imagingFolderName)
     config_exp.organism = 'Yeast';
     config_exp.objective_type = '40x_oil';
     config_exp.magnification = '40x*1.5=60x';
-    config_exp.strains = 'BGE';
-    config_exp.initial_delay = 60*10; %% In seconds
+    config_exp.strains = 'GE';
+    config_exp.initial_delay = 60*0; %% In seconds
     config_exp.experiment_pattern_times = times_pwm_pattern;	
     config_exp.experiment_pattern_values = values_pwm_pattern;
     config_exp.Period = 60;
