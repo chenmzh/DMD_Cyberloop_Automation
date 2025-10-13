@@ -1,4 +1,4 @@
-function [] = capture_images_PFS(config, imaging, xy, posNum, microscope,current_pattern)
+function [] = capture_images_PFS(config, imaging, xy, posNum, microscope,current_pattern,log)
 
 numImagingTypes = length(imaging.types);
 camera = microscope.getCameraDevice();
@@ -27,11 +27,20 @@ for indx=1:numImagingTypes
         % set shuttle state to desired 
         if current_pattern == 1 && strcmp(imaging.types{indx}, 'projector_capturing')
             microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('1');
+            log(['projector is on with shutter value', char(microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).getValue())])
         end
+        pause(0.5);
+        log(['image types: ',  imaging.types{indx}])
+        log(['Before imaging, DMD shutter value is ', char(microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).getValue())])
         imageEvent = camera.makeImage(imaging.groups{indx}, imaging.types{indx}, imaging.exposure{indx});
         imageType = ['uint', mat2str(8 * imageEvent.getBytesPerPixel())];
         matlabImage = reshape(typecast(imageEvent.getImageData(), imageType), imageEvent.getWidth(), imageEvent.getHeight())';
         
+        log(['After imaging, DMD shutter value is ', char(microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).getValue())])
+        log(['After imaging, turrent 2 filter is ', char(microscope.getDevice(config.deviceFilterBlockProj).getProperty(config.propertyFilterBlock).getValue())])
+        log(['After imaging, turrent 1 filter is ', char(microscope.getDevice(config.deviceFilterBlockFluo).getProperty(config.propertyFilterBlock).getValue())])
+        
+
         % Flip dimensions if necessary
         if imageEvent.isTransposeY()
             matlabImage = flipud(matlabImage);

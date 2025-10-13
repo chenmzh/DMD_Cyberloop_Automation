@@ -229,7 +229,7 @@ while true
             log('Using PFS')
             go_to_position_PFS(positionIndeces(1),xyPoints,microscope); % Without z axis
             log('capturing images...')
-            capture_images_PFS(config, imaging, xyPoints, positionIndeces(1), microscope,current_pattern);
+            capture_images_PFS(config, imaging, xyPoints, positionIndeces(1), microscope,current_pattern, log);
             log('... done')
         else
             log('Not using PFS')
@@ -275,6 +275,9 @@ while true
                 % img_matrix = pattern_collection{positionIndeces(1)};
                 % experiment_dmd.display(img_matrix);
             else
+                log('DMD filter block to 0...')
+                microscope.getDevice(config.deviceFilterBlockProj).getProperty(config.propertyFilterBlock).setValue(num2str('0'));
+                log('... done')
                 log('DMD shutter to 0...')
                 microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('0');
                 log('... done')

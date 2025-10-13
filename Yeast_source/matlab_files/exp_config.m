@@ -9,7 +9,7 @@ function [config_exp] = exp_config(imagingFolderName)
     % cycle_on_time = [30, 60, 120, 180, 240, 300]; % seconds
     
     pwm_duration = 480; % 8 minutes
-    off_duration = 0; % 10 minutes, extra off time between different cycle on time.
+    off_duration = 600; % 10 minutes, extra off time between different cycle on time.
     % Pulsatile Period
     PP = 120 % 1 mins, total on time will be spread out during the pwm_duration
     Frequency = pwm_duration/PP
@@ -53,7 +53,7 @@ function [config_exp] = exp_config(imagingFolderName)
     config_exp.objective_type = '40x_oil';
     config_exp.magnification = '40x*1.5=60x';
     config_exp.strains = 'GE';
-    config_exp.initial_delay = 60*0; %% In seconds
+    config_exp.initial_delay = 60*10; %% In seconds
     config_exp.experiment_pattern_times = times_pwm_pattern;	
     config_exp.experiment_pattern_values = values_pwm_pattern;
     config_exp.Period = 60;
@@ -64,6 +64,11 @@ function [config_exp] = exp_config(imagingFolderName)
     config_exp.imaging.exposure = {10, 2000, 100};
     config_exp.imaging.zOffsets = {[0], [0], [-4]};
     config_exp.imaging.condenser = {5, 5, 5};
+    % config_exp.imaging.types = {'brightfield','Cy3'};
+    % config_exp.imaging.groups = {'Channels','Trigger'};
+    % config_exp.imaging.exposure = {10, 2000};
+    % config_exp.imaging.zOffsets = {[0], [0]};
+    % config_exp.imaging.condenser = {5, 5};
     config_exp.imaging.message = ['Test DMD pattern. with capturing the DMD images. Background 1.6uW, 2048*0.07um/pixel = 143.36um, 37.6uW - 1.6 = 36uW before, = 0.00175uW/um^2 = 175mW/cm^2, with 50/255, power is 8.73uW, 8.73-1.6 = 7.13uW. normalized to be 34.7mW/cm^2, keep lowering it by 3.4 times. targeting light value is 10mW/cm^2, which is roughly 2uW, add background 1.6 which is 3.6uW. In conclustion, its lowered by 4 times compared with previous setup. Using patterns C:\Users\Localadmin\Desktop\sant_workspace\sample_patterns\checkerboard_fullHD_int8_0_50_1920x1080.png, tested with high duty cycle'];
     config_exp.UsingPFS = true;
 end
