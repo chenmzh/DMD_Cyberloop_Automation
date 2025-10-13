@@ -1,13 +1,13 @@
-function [] = capture_images_PFS(config, imaging, xy, posNum, microscope)
+function [] = capture_images_PFS(config, imaging, xy, posNum, microscope,current_pattern)
 
 numImagingTypes = length(imaging.types);
 camera = microscope.getCameraDevice();
 
 
 microscope.getDevice('PFS').getProperty('FocusMaintenance').setValue('On'); % setup PFS
-pause(0.5);
+pause(1);
 microscope.getDevice(config.devicePFSOffset).getProperty(config.propertyPFSOffset).setValue(num2str(xy.pfsOffset(posNum))); % Need to turn on PFS first, then change the offset
-pause(0.5);
+pause(1);
 
 
 currentZ = str2num(microscope.getDevice(config.deviceZDrive).getProperty(config.propertyZDrive).getValue());
@@ -21,9 +21,13 @@ for indx=1:numImagingTypes
         
         % Set z value
         microscope.getDevice(config.deviceZDrive).getProperty(config.propertyZDrive).setValue(num2str(currentZ+imaging.zOffsets{indx}(zIndx)));
-        pause(0.5);
+        pause(1);
         
         % Take image
+        % set shuttle state to desired 
+        if current_pattern == 1 && strcmp(imaging.types{indx}, 'projector_capturing')
+            microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('1');
+        end
         imageEvent = camera.makeImage(imaging.groups{indx}, imaging.types{indx}, imaging.exposure{indx});
         imageType = ['uint', mat2str(8 * imageEvent.getBytesPerPixel())];
         matlabImage = reshape(typecast(imageEvent.getImageData(), imageType), imageEvent.getWidth(), imageEvent.getHeight())';

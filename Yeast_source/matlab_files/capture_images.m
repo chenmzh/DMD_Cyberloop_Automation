@@ -1,4 +1,4 @@
-function [] = capture_images(config, imaging, xy, posNum, microscope)
+function [] = capture_images(config, imaging, xy, posNum, microscope,current_pattern)
 
 numImagingTypes = length(imaging.types);
 camera = microscope.getCameraDevice();
@@ -22,6 +22,18 @@ for indx=1:numImagingTypes
         pause(0.5);
         
         % Take image
+        
+        % set shuttle state to desired 
+        if current_pattern == 1 
+            if strcmp(imaging.types{indx}, 'projector_capturing')
+                microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('1');
+            elseif strcmp(imaging.types{indx}, 'Cy3')
+                microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('0');
+            end
+        end
+        %     if current_pattern == 1 && strcmp(imaging.types{indx}, 'projector_capturing')
+        % microscope.getDevice(config.deviceShutterProj).getProperty(config.propertyShutter).setValue('1');   
+        % end
         imageEvent = camera.makeImage(imaging.groups{indx}, imaging.types{indx}, imaging.exposure{indx});
         imageType = ['uint', mat2str(8 * imageEvent.getBytesPerPixel())];
         matlabImage = reshape(typecast(imageEvent.getImageData(), imageType), imageEvent.getWidth(), imageEvent.getHeight())';

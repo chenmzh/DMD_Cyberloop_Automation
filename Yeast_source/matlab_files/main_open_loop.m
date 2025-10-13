@@ -21,7 +21,7 @@ server = 'smtp.gmail.com';
 port = '465';
 
 % set up Telegram bot 
-telegram_send = telepush('host', "10.146.224.25", 'port', 8787, 'secret', "change-me");
+% telegram_send = telepush('host', "10.146.224.25", 'port', 8787, 'secret', "change-me");
 
 setpref('Internet', 'E_mail', mail);
 setpref('Internet', 'SMTP_Server', server);
@@ -177,7 +177,7 @@ try
 log('setup completed')
 
 % apply initial delay
-telegram_send("Starting open loop experiment: " + experiment + " with initial delay of " + num2str(initial_delay) + " seconds.")
+% telegram_send("Starting open loop experiment: " + experiment + " with initial delay of " + num2str(initial_delay) + " seconds.") % Comment out for testing while Nicolo is away 
 pause(initial_delay)
 log("starting experiment")
 
@@ -210,7 +210,7 @@ end
 
 % set position only once
 
-telegram_send("Microscope moved to position. Starting open loop illumination.")
+% telegram_send("Microscope moved to position. Starting open loop illumination.")
 
 % Iterate over the loop until time reached
 while true
@@ -229,12 +229,12 @@ while true
             log('Using PFS')
             go_to_position_PFS(positionIndeces(1),xyPoints,microscope); % Without z axis
             log('capturing images...')
-            capture_images_PFS(config, imaging, xyPoints, positionIndeces(1), microscope);
+            capture_images_PFS(config, imaging, xyPoints, positionIndeces(1), microscope,current_pattern);
             log('... done')
         else
             log('Not using PFS')
             log('capturing images...')
-            capture_images(config, imaging, xyPoints, positionIndeces(1), microscope); % Projcetor block would swtich to empty one, but shutter would open after capturing images
+            capture_images(config, imaging, xyPoints, positionIndeces(1), microscope,current_pattern); % Projcetor block would swtich to empty one, but shutter would open after capturing images
             log('... done')
         end
         currentZ = string(microscope.getDevice(config.deviceZDrive).getProperty(config.propertyZDrive).getValue());
@@ -317,7 +317,7 @@ while true
         % Copy file after summary generated
         copyfile(microscopyFolderName, destination_folder);
 
-        telegram_send("Open loop experiment: " + experiment + " completed successfully! Total time: " + num2str(total_experiment_time) + " seconds. Data copied to server.")
+        % telegram_send("Open loop experiment: " + experiment + " completed successfully! Total time: " + num2str(total_experiment_time) + " seconds. Data copied to server.")
         error("Time limit reached, bye bye!");
     end
 
